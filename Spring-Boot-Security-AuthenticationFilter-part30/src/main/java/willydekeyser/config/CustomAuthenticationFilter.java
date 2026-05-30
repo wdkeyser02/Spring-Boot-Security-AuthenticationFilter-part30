@@ -22,9 +22,11 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
 			return;
 		}
 		if (Objects.equals(request.getHeader("x-forbidden"), "no")) {
+			response.setHeader("x-forbidden", "no");
 			filterChain.doFilter(request, response);
 		}
 		response.setStatus(HttpStatus.FORBIDDEN.value());
+		response.setHeader("x-forbidden", "yes");
 		return;
 		
 	}

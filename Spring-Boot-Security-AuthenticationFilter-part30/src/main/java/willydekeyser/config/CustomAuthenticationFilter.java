@@ -17,6 +17,10 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		IO.println("\n\nCustomAuthenticationFilter Header: " + "x-forbidden:" + request.getHeader("x-forbidden"));
+		if (Objects.isNull(request.getHeader("x-forbidden"))) {
+			response.setStatus(HttpStatus.BAD_REQUEST.value());
+			return;
+		}
 		if (Objects.equals(request.getHeader("x-forbidden"), "no")) {
 			filterChain.doFilter(request, response);
 		}
